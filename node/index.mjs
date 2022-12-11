@@ -33,4 +33,4 @@ async function emotion () {
 	console.log(response.data);
 }
 
-// emotion()
+emotion()
