@@ -1,6 +1,6 @@
 # OpenAPI example
 
-OpenAPI sample code for Node.js and Rust
+OpenAPI sample code for Node.js and Tauri
 
 ## How to use
 
@@ -18,6 +18,6 @@ cd node
 npm start
 ```
 
-### Rust
+### Tauri
 
 TBD
