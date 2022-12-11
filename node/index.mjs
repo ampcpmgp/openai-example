@@ -5,7 +5,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-async function start () {
+async function emotion () {
 	const response = await openai.createCompletion({
 		model: "text-davinci-003",
 		prompt: `チャットの感情がポジティブ、ネガティブ、ニュートラルのいずれかを決定します。
@@ -17,7 +17,20 @@ async function start () {
 		max_tokens: 7,
 	});
 
+	/**
+	response.data
+	{
+		id: 'cmpl-6M8RpQhbUbfv9k6qAELDO8256z2rO',
+		object: 'text_completion',
+		created: 1670733709,
+		model: 'text-davinci-003',
+		choices: [
+			{ text: 'ニュートラル', index: 0, logprobs: null, finish_reason: 'stop' }
+		],
+		usage: { prompt_tokens: 180, completion_tokens: 6, total_tokens: 186 }
+	}
+	 */
 	console.log(response.data);
 }
 
-start()
+// emotion()
