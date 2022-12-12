@@ -1,19 +1,30 @@
 <script lang="ts">
   import svelteLogo from "./assets/svelte.svg";
   import Counter from "./lib/Counter.svelte";
-  import { getClient, ResponseType } from "@tauri-apps/api/http";
+  import { Body, getClient } from "@tauri-apps/api/http";
 
   async function get() {
     const client = await getClient();
-    const response = await client.get(
-      "https://jsonplaceholder.typicode.com/todos/1"
+    const response = await client.post(
+      "https://api.openai.com/v1/completions",
+      Body.json({
+        model: "text-davinci-003",
+        prompt: "This is a test",
+      }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+        },
+      }
     );
+
     if (response.status === 200) {
       console.log(response.data);
     }
   }
 
-  get();
+  // get()
 </script>
 
 <main>
