@@ -1,22 +1,34 @@
 import { Body, getClient } from "@tauri-apps/api/http";
+import { get, writable } from "svelte/store";
 import type { Response, Request } from "./dto";
 
-export function start () {
-	// generateText()
-	getCard()
+export const question = writable("")
+export const answer = writable("")
+
+export function call () {
+	answer.set("")
+	createCompletions()
+	// getCard()
 }
 
-async function generateText () {
-	const data = await completions({ model: "text-davinci-003", prompt: "アイスクリームショップのキャッチフレーズを書きます。" })
-	console.info(data.choices)
-	console.info(data.choices.map(item => item.text))
+export async function createCompletions () {
+	question.set("アイスクリームショップのキャッチフレーズを書きます。")
+	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
 }
 
-export async function completions(request: Request) {
+export async function completionsApi(request: Request) {
 	const client = await getClient();
+
 	const response = await client.post<Response>(
 		"https://api.openai.com/v1/completions",
-		Body.json(request),
+
+		// https://beta.openai.com/docs/api-reference/completions/create
+		Body.json({
+			max_tokens: 256, // default 16
+			temperature: 1, // default 1
+			top_p: 1, // default 1
+			...request
+		}),
 		{
 			headers: {
 				"Content-Type": "application/json",
@@ -26,7 +38,9 @@ export async function completions(request: Request) {
 		}
 	);
 
-	return response.data;
+	const choice = response.data.choices[0]
+
+	answer.set(choice.text)
 }
 export async function getCard() {
 	const client = await getClient();
