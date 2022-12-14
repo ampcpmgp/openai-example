@@ -7,12 +7,23 @@ export const answer = writable("")
 
 export function call () {
 	answer.set("")
-	createCompletions()
+	// completion()
+	sentimental()
 	// getCard()
 }
 
-export async function createCompletions () {
+export async function completion () {
 	question.set("アイスクリームショップのキャッチフレーズを書きます。")
+	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
+}
+export async function sentimental () {
+	question.set(`
+次のチャットの感情がポジティブ・ニュートラル・ネガティブのいずれであるかを決定します。
+
+新しいバットマンの映画が大好きです!
+
+感情：
+	`)
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
 }
 
@@ -24,7 +35,7 @@ export async function completionsApi(request: Request) {
 
 		// https://beta.openai.com/docs/api-reference/completions/create
 		Body.json({
-			max_tokens: 256, // default 16
+			max_tokens: 64, // default 16
 			temperature: 1, // default 1
 			top_p: 1, // default 1
 			...request
