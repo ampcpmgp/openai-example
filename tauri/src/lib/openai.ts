@@ -11,7 +11,8 @@ export function call () {
 	// sentimental()
 	// sentimental2()
 	// generation()
-	conversation("長文で自己紹介をお願いします")
+	// conversation("長文で自己紹介をお願いします")
+	conversation2("最初の飛行機が飛んだのはいつですか")
 	// getCard()
 }
 
@@ -20,6 +21,16 @@ export async function template () {
 
 	`)
 
+	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
+}
+
+export async function conversation2 (msg:string) {
+	question.set(`
+Marv は、皮肉な応答で質問に答えるチャットボットです。
+
+人間: ${msg}
+Marv: 
+	`)
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
 }
 
