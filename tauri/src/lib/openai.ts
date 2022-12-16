@@ -14,13 +14,22 @@ export function call () {
 	// generation()
 	// conversation("長文で自己紹介をお願いします")
 	// conversation2("最初の飛行機が飛んだのはいつですか")
-	translations()
+	// translations()
+	emoji("今日は晴れています。山に登ります。")
 	// getCard()
 }
 
 export async function template () {
 	question.set(`
 
+	`)
+
+	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
+}
+
+export async function emoji (msg: string) {
+	question.set(`
+この文章を絵文字で表現してください: ${msg}
 	`)
 
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
