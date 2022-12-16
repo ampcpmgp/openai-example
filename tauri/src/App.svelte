@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { call, question, answer } from "./lib/openai";
+  import { call, question, answer, askNext } from "./lib/openai";
 
   call();
 </script>
@@ -14,9 +14,13 @@
 
 <hr />
 <button on:click={call}>別な回答を作る</button>
+<br />
+<button on:click={() => askNext()}>続きを聞く</button>
+<button on:click={() => askNext("long")}>続きをたくさん聞く</button>
+<button on:click={() => askNext("very-long")}>続きをもっとたくさん聞く</button>
 
 <style>
-  p {
-    white-space: pre;
+  main p {
+    white-space: pre-line;
   }
 </style>

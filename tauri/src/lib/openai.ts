@@ -1,6 +1,6 @@
 import { Body, getClient } from "@tauri-apps/api/http";
 import { get, writable } from "svelte/store";
-import type { Response, Request } from "./dto";
+import type { ResponseDTO, RequestDTO, MessageLength } from "./types";
 
 export const question = writable("")
 export const answer = writable("")
@@ -8,8 +8,36 @@ export const answer = writable("")
 export function call () {
 	answer.set("")
 	// completion()
-	sentimental()
+	// sentimental()
+	// sentimental2()
+	// generation()
+	conversation("長文で自己紹介をお願いします")
 	// getCard()
+}
+
+export async function template () {
+	question.set(`
+
+	`)
+
+	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
+}
+
+export async function conversation (msg:string) {
+	question.set(`
+以下はAIアシスタントとの会話です。アシスタントは親切で、創造的で、賢く、とてもフレンドリーです。
+
+人間: ${msg}
+AI: 
+	`)
+	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
+}
+
+export async function generation () {
+	question.set(`
+VR とフィットネスを組み合わせたアイデアをブレインストーミングします。
+	`)
+	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
 }
 
 export async function completion () {
@@ -27,10 +55,25 @@ export async function sentimental () {
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
 }
 
-export async function completionsApi(request: Request) {
+export async function sentimental2 () {
+	question.set(`
+これらのツイートの感情を分類してください:
+
+1.「宿題が我慢できない」 
+2.「これは最悪だ。退屈だ😠」 
+3.「ハロウィーンが待ちきれない!!!」
+4.「私の猫はかわいい❤️❤️」 
+5.「私はチョコレートが嫌いです」
+
+ツイートのセンチメント評価:
+	`)
+	return completionsApi({ model: "text-davinci-003", prompt: get(question), })
+}
+
+export async function completionsApi(request: RequestDTO) {
 	const client = await getClient();
 
-	const response = await client.post<Response>(
+	const response = await client.post<ResponseDTO>(
 		"https://api.openai.com/v1/completions",
 
 		// https://beta.openai.com/docs/api-reference/completions/create
@@ -51,7 +94,7 @@ export async function completionsApi(request: Request) {
 
 	const choice = response.data.choices[0]
 
-	answer.set(choice.text)
+	answer.update((answer) => `${answer}${choice.text}`)
 }
 export async function getCard() {
 	const client = await getClient();
@@ -60,4 +103,15 @@ export async function getCard() {
 	);
 
 	return response.data;
+}
+export async function askNext (length: MessageLength = "medium") {
+	const prompt = get(question) + get(answer)
+	const maxTokens = {
+		"medium": 64,
+		"long": 254,
+		"very-long": 1024,
+		"full": 4096,
+	}[length]
+
+	return completionsApi({ model: "text-davinci-003", prompt, max_tokens: maxTokens })
 }
