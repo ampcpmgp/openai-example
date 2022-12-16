@@ -50,7 +50,7 @@ export async function translations () {
 	これをフランス語、スペイン語、英語に翻訳してください: どの部屋が空いていますか?
 	`)
 
-	return completionsApi({ model: "text-davinci-003", prompt: get(question), max_tokens: 128 })
+	return completionsApi({ model: "text-davinci-003", prompt: get(question)})
 }
 
 export async function conversation2 (msg:string) {
@@ -114,6 +114,7 @@ export async function completionsApi(request: RequestDTO) {
 
 		// https://beta.openai.com/docs/api-reference/completions/create
 		Body.json({
+			model: "text-davinci-003",
 			max_tokens: 64, // default 16
 			temperature: 1, // default 1
 			top_p: 1, // default 1
