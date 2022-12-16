@@ -62,7 +62,6 @@ Marv:
 	`)
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
 }
-
 export async function conversation (msg:string) {
 	question.set(`
 以下はAIアシスタントとの会話です。アシスタントは親切で、創造的で、賢く、とてもフレンドリーです。
@@ -72,14 +71,12 @@ AI:
 	`)
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
 }
-
 export async function generation () {
 	question.set(`
 VR とフィットネスを組み合わせたアイデアをブレインストーミングします。
 	`)
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
 }
-
 export async function completion () {
 	question.set("アイスクリームショップのキャッチフレーズを書きます。")
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
@@ -94,7 +91,6 @@ export async function sentimental () {
 	`)
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
 }
-
 export async function sentimental2 () {
 	question.set(`
 これらのツイートの感情を分類してください:
@@ -109,7 +105,6 @@ export async function sentimental2 () {
 	`)
 	return completionsApi({ model: "text-davinci-003", prompt: get(question), })
 }
-
 export async function completionsApi(request: RequestDTO) {
 	waiting.set(true)
 	const client = await getClient();
