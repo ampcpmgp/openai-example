@@ -15,13 +15,23 @@ export function call () {
 	// conversation("長文で自己紹介をお願いします")
 	// conversation2("最初の飛行機が飛んだのはいつですか")
 	// translations()
-	emoji("今日は晴れています。山に登ります。")
+	// emoji("今日は晴れています。山に登ります。")
+	summarization()
 	// getCard()
 }
 
 export async function template () {
 	question.set(`
 
+	`)
+
+	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
+}
+
+export async function summarization () {
+	question.set(`
+小学2年生のためにこれを要約します。
+木星は太陽から 5 番目の惑星であり、太陽系で最大です。質量は太陽の 1000 分の 1 ですが、太陽系の他のすべての惑星を合わせた質量の 2.5 倍の巨大ガス惑星です。木星は、夜空で肉眼で見える最も明るい天体の 1 つであり、有史以前から古代文明に知られていました。ローマの神ユピテルにちなんで名付けられた[19]。地球から見ると、木星はその反射光が目に見える影を落とすのに十分なほど明るく[20]、夜空で月と金星に次いで平均して3番目に明るい自然物体です。
 	`)
 
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })

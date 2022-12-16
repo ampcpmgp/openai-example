@@ -15,12 +15,9 @@
 <hr />
 <button disabled={$waiting} on:click={call}>別な回答を作る</button>
 <br />
-<button disabled={$waiting} on:click={() => askNext()}>続きを聞く</button>
-<button disabled={$waiting} on:click={() => askNext("long")}
-  >続きをたくさん聞く</button
->
+<button disabled={$waiting} on:click={() => askNext("long")}>続きを聞く</button>
 <button disabled={$waiting} on:click={() => askNext("very-long")}
-  >続きをもっとたくさん聞く</button
+  >続きをたくさん聞く</button
 >
 
 <style>
