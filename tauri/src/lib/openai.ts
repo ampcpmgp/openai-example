@@ -13,7 +13,8 @@ export function call () {
 	// sentimental2()
 	// generation()
 	// conversation("長文で自己紹介をお願いします")
-	conversation2("最初の飛行機が飛んだのはいつですか")
+	// conversation2("最初の飛行機が飛んだのはいつですか")
+	translations()
 	// getCard()
 }
 
@@ -23,6 +24,14 @@ export async function template () {
 	`)
 
 	return completionsApi({ model: "text-davinci-003", prompt: get(question) })
+}
+
+export async function translations () {
+	question.set(`
+	これをフランス語、スペイン語、英語に翻訳してください: どの部屋が空いていますか?
+	`)
+
+	return completionsApi({ model: "text-davinci-003", prompt: get(question), max_tokens: 128 })
 }
 
 export async function conversation2 (msg:string) {
