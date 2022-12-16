@@ -4,6 +4,7 @@ import type { ResponseDTO, RequestDTO, MessageLength } from "./types";
 
 export const question = writable("")
 export const answer = writable("")
+export const waiting = writable(false)
 
 export function call () {
 	answer.set("")
@@ -82,6 +83,7 @@ export async function sentimental2 () {
 }
 
 export async function completionsApi(request: RequestDTO) {
+	waiting.set(true)
 	const client = await getClient();
 
 	const response = await client.post<ResponseDTO>(
@@ -106,6 +108,7 @@ export async function completionsApi(request: RequestDTO) {
 	const choice = response.data.choices[0]
 
 	answer.update((answer) => `${answer}${choice.text}`)
+	waiting.set(false)
 }
 export async function getCard() {
 	const client = await getClient();

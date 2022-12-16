@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { call, question, answer, askNext } from "./lib/openai";
+  import { call, question, answer, askNext, waiting } from "./lib/openai";
 
   call();
 </script>
@@ -13,11 +13,15 @@
 </main>
 
 <hr />
-<button on:click={call}>別な回答を作る</button>
+<button disabled={$waiting} on:click={call}>別な回答を作る</button>
 <br />
-<button on:click={() => askNext()}>続きを聞く</button>
-<button on:click={() => askNext("long")}>続きをたくさん聞く</button>
-<button on:click={() => askNext("very-long")}>続きをもっとたくさん聞く</button>
+<button disabled={$waiting} on:click={() => askNext()}>続きを聞く</button>
+<button disabled={$waiting} on:click={() => askNext("long")}
+  >続きをたくさん聞く</button
+>
+<button disabled={$waiting} on:click={() => askNext("very-long")}
+  >続きをもっとたくさん聞く</button
+>
 
 <style>
   main p {
